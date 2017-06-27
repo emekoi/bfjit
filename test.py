@@ -9,22 +9,15 @@ if platform.system() == "Windows":
   binary += ".exe"
   div = "\\"
 else:
-  div = 
+  div = "/"
 
 def main():
   global cmds, res
 
-  if os.path.isfile("bin/" + binary):
+  if os.path.isfile("bin" + div + binary):
     for subdir, dirs, files in os.walk("example"):
       for file in files:
-        if platform.system() == "Windows":
-          cmds += [ "bin\\bfjit %s" % os.path.join(subdir, file) ]
-        else:
-          cmds += [ "bin/bfjit %s" % os.path.join(subdir, file) ]
-
-    for cmd in cmds:
-      res += os.system(cmd)
-    
+        res += os.system("bin"+div+binary+(" %s" % os.path.join(subdir, file)))
   sys.exit(res)
 
 if __name__ == "__main__":
