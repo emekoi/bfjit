@@ -3,10 +3,18 @@ import os, sys, shutil, platform
 cmds = [ ]
 res = 0
 
+binary = "bfjit"
+
+if platform.system() == "Windows":
+  binary += ".exe"
+  div = "\\"
+else:
+  div = 
+
 def main():
   global cmds, res
 
-  if os.path.isfile("bin/conf"):
+  if os.path.isfile("bin/" + binary):
     for subdir, dirs, files in os.walk("example"):
       for file in files:
         if platform.system() == "Windows":

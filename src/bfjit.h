@@ -13,9 +13,9 @@
 
 #define MAX_SIZE 0xFFFFF
 
-typedef struct cf_Program cf_Program;
+typedef struct bf_Program bf_Program;
 
-struct cf_Program {
+struct bf_Program {
 	char *inst;
 	char *name;
 	char *mem;
@@ -24,10 +24,10 @@ struct cf_Program {
 	size_t dp;
 };
 
-cf_Program *cf_new_program(char *name, size_t len);
-void cf_close_program(cf_Program *program);
-cf_Program *cf_parse_program(char *name, char *source);
-size_t *cf_compute_jumptable(cf_Program *program);
-void cf_run_program(cf_Program *program);
+bf_Program *bf_new_program(char *name, size_t len);
+void bf_close_program(bf_Program *program);
+bf_Program *bf_parse_program(char *name, char *source);
+size_t *bf_compute_jumptable(bf_Program *program);
+void bf_run_program(bf_Program *program);
 
 #endif

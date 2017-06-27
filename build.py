@@ -7,7 +7,7 @@ SOURCE = [
   "src/*.c",
   "src/lib/fs/*.c",
 ]
-FLAGS = [ "-Wall", "-Wextra","--std=c99" ]
+FLAGS = [ "-Wall", "-Wextra","--std=c99", "-fno-strict-aliasing" ]
 LINK = [ "m" ]
 DEFINE = [ ]
 EXTRA = ""

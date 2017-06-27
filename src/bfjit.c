@@ -65,8 +65,8 @@ static char *concat(const char *str, ...) {
   return res;
 }
 
-cf_Program *cf_new_program(char *name, size_t len) {
-  cf_Program *p = (cf_Program *)calloc(1, sizeof(cf_Program));
+bf_Program *bf_new_program(char *name, size_t len) {
+  bf_Program *p = (bf_Program *)calloc(1, sizeof(bf_Program));
   p->inst = (char *)calloc(len, sizeof(char));
   p->mem = (char *)calloc(MAX_SIZE, sizeof(char));
   p->name = name;
@@ -75,14 +75,14 @@ cf_Program *cf_new_program(char *name, size_t len) {
   return p;
 }
 
-void cf_close_program(cf_Program *program) {
+void bf_close_program(bf_Program *program) {
   free(program->inst);
   free(program->mem);
   free(program);
 }
 
-cf_Program *cf_parse_program(char *name, char *source) {
-	cf_Program *p = cf_new_program(name, strlen(source));
+bf_Program *bf_parse_program(char *name, char *source) {
+	bf_Program *p = bf_new_program(name, strlen(source));
 	char *i = source;
   int k = 0;
 	while (*i) {
@@ -103,8 +103,8 @@ cf_Program *cf_parse_program(char *name, char *source) {
 	return p;
 }
 
-size_t *cf_compute_jumptable(cf_Program *program) {
-  cf_Program *p = program;
+size_t *bf_compute_jumptable(bf_Program *program) {
+  bf_Program *p = program;
   size_t *jmp_table = calloc(p->len, sizeof(size_t));
   
   for (p->ic = 0; p->ic < p->len; p->ic++) {
@@ -136,9 +136,9 @@ size_t *cf_compute_jumptable(cf_Program *program) {
   return jmp_table;
 }
 
-void cf_run_program(cf_Program *program) {
-  cf_Program *p = program;
-  size_t *jmp_table = cf_compute_jumptable(p);
+void bf_run_program(bf_Program *program) {
+  bf_Program *p = program;
+  size_t *jmp_table = bf_compute_jumptable(p);
 
   for (p->ic = 0; p->ic <= p->len; p->ic++) {
     switch (*(p->inst + p->ic)) {
@@ -181,7 +181,7 @@ void cf_run_program(cf_Program *program) {
 int main(int argc, char **argv) {
   clock_t start, end, cpu;
   start = clock();
-  cf_Program *program;
+  bf_Program *program;
 
   if (argc > 1) {
     char *path = dirname(concat("./", strip(argv[1]), NULL));
@@ -198,9 +198,9 @@ int main(int argc, char **argv) {
       size_t len;
       char *data = fs_read(file, &len);
       /* parse file */
-      program = cf_parse_program(file, data);
-      cf_run_program(program);
-      cf_close_program(program);
+      program = bf_parse_program(file, data);
+      bf_run_program(program);
+      bf_close_program(program);
     } 
     fs_unmount(path);
     fs_deinit();
@@ -209,9 +209,9 @@ int main(int argc, char **argv) {
     char buf[MAX_SIZE];
     gets(buf);
     /* parse input */
-    program = cf_parse_program("stdin", buf);
-    cf_run_program(program);
-    cf_close_program(program);
+    program = bf_parse_program("stdin", buf);
+    bf_run_program(program);
+    bf_close_program(program);
   }
 
 
